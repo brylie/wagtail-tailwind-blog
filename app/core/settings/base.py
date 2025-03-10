@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django_tailwind_cli",
 ]
 
 MIDDLEWARE = [
@@ -134,7 +133,6 @@ STATICFILES_FINDERS = [
 
 STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, "static"),
-    os.path.join(BASE_DIR, "assets"),
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
