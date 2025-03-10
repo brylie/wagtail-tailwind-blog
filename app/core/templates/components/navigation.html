@@ -1,0 +1,16 @@
+{% load wagtailcore_tags %}
+
+<nav class="bg-gray-800 text-white py-4">
+    <div class="container mx-auto px-4">
+        <ul class="flex space-x-6">
+            <li>
+                <a href="{% pageurl navigation_homepage %}" class="hover:text-gray-300">Home</a>
+            </li>
+            {% if navigation_blogindex %}
+                <li>
+                    <a href="{% pageurl navigation_blogindex %}" class="hover:text-gray-300">Blog</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

@@ -38,6 +38,8 @@
 
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
+        
+        {% include "components/navigation.html" %}
 
         <main class="container">
             {% block content %}{% endblock %}
