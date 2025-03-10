@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+    {% load tailwind_cli %}
     <head>
         <meta charset="utf-8" />
         <title>
@@ -29,6 +30,8 @@
         {% block extra_css %}
         {# Override this in templates to add extra stylesheets #}
         {% endblock %}
+
+        {% tailwind_css %}
     </head>
 
     <body class="{% block body_class %}{% endblock %}">
