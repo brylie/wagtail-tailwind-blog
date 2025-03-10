@@ -14,6 +14,12 @@ class BlogIndexPage(Page):
 
     parent_page_types = ["home.HomePage"]
 
+    def get_context(self, request):
+        context = super().get_context(request)
+        blogpages = BlogPage.objects.live().order_by("-date")
+        context['blogpages'] = blogpages
+        return context
+
 
 class BlogPage(Page):
     date = models.DateField("Post date")
