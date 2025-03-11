@@ -31,17 +31,82 @@ Building lightning-fast ⚡️, beautiful blogs in record time!
   </a>
 </div>
 
-<!--
-Welcome to this tutorial where we'll build a modern blog using Wagtail CMS and Tailwind CSS.
+---
+layout: center
+---
 
-In this presentation, we'll cover:
-- Setting up a Django project with Wagtail CMS
-- Integrating Tailwind CSS for modern styling
-- Creating models for our blog content
-- Building responsive templates
-- Understanding the admin interface
-- Deployment considerations
--->
+# Live Demo
+
+<div class="text-lg text-green-500 mb-4">
+  Here's what we'll build today
+</div>
+
+<iframe src="https://demo-wagtail-blog.herokuapp.com" 
+        class="w-full h-96 rounded-lg shadow-xl border-2 border-gray-200">
+</iframe>
+
+<div class="text-sm text-gray-500 mt-2">
+  30-second preview of our finished blog
+</div>
+
+---
+layout: two-cols
+---
+
+# What You'll Learn
+
+<div class="grid grid-cols-2 gap-6 mt-8">
+  <div class="flex items-center space-x-4">
+    <div class="text-3xl">🏗️</div>
+    <div>
+      <div class="font-bold">Project Setup</div>
+      <div class="text-sm text-gray-600">Django & Wagtail foundations</div>
+    </div>
+  </div>
+  
+  <div class="flex items-center space-x-4">
+    <div class="text-3xl">🎨</div>
+    <div>
+      <div class="font-bold">Modern Styling</div>
+      <div class="text-sm text-gray-600">Tailwind CSS mastery</div>
+    </div>
+  </div>
+  
+  <div class="flex items-center space-x-4">
+    <div class="text-3xl">📝</div>
+    <div>
+      <div class="font-bold">Content Modeling</div>
+      <div class="text-sm text-gray-600">Blog structure & relations</div>
+    </div>
+  </div>
+  
+  <div class="flex items-center space-x-4">
+    <div class="text-3xl">🚀</div>
+    <div>
+      <div class="font-bold">Deployment</div>
+      <div class="text-sm text-gray-600">Production-ready setup</div>
+    </div>
+  </div>
+</div>
+
+::right::
+
+<div class="ml-4 mt-8">
+
+### Your Takeaways
+
+- Build a production-ready blog
+- Master Wagtail CMS basics
+- Learn modern CSS practices
+- Implement responsive design
+- Handle content relationships
+- Deploy with confidence
+
+<div class="mt-8 text-sm text-gray-500">
+  Perfect for developers wanting to build content-rich sites quickly
+</div>
+
+</div>
 
 ---
 layout: two-cols
