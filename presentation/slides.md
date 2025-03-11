@@ -14,7 +14,13 @@ mdc: true
 
 # Wagtail-Tailwind Blog
 
-Building a modern, responsive blog with Wagtail CMS and Tailwind CSS
+Building lightning-fast ⚡️, beautiful blogs in record time!
+
+<!-- TODO: Add "Speed" meme/GIF - search "fastest website meme" -->
+
+<div class="text-xl text-blue-400 mt-4">
+  "Because life's too short for slow, ugly websites"
+</div>
 
 <div class="abs-br m-6 flex gap-2">
   <a href="https://wagtail.org" target="_blank" class="text-xl icon-btn opacity-50 !border-none !hover:text-white">
@@ -42,6 +48,8 @@ layout: two-cols
 ---
 
 # Technology Stack
+
+<!-- TODO: Add "Dream Team" meme - search "perfect combination meme" -->
 
 <div class="mt-12"></div>
 
@@ -82,6 +90,12 @@ transition: fade
 ---
 
 # Project Setup
+
+<div class="text-xl text-green-500 mb-4">
+  Let's build something awesome! 🚀
+</div>
+
+<!-- TODO: Add "Building" GIF - search "building lego timelapse" -->
 
 <div class="grid grid-cols-2 gap-4">
 
@@ -265,6 +279,12 @@ Note how we use template inheritance and blocks for flexibility.
 ---
 ---
 # Navigation Menu: Template
+
+<div class="text-lg text-orange-400 mb-4">
+  Pro tip: Navigation is like a good joke - timing is everything! ⚡️
+</div>
+
+<!-- TODO: Add "Navigation" meme - search "website navigation maze meme" -->
 
 ```html
 <nav aria-label="Main navigation" class="bg-gray-800 shadow-lg">
@@ -567,6 +587,12 @@ transition: slide-up
 
 # Styling with Tailwind
 
+<div class="text-lg text-purple-400 mb-4">
+  Making CSS fun again! 🎨
+</div>
+
+<!-- TODO: Add "CSS" meme - search "css frustration meme" -->
+
 <div class="grid grid-cols-2 gap-4">
 
 <div>
@@ -753,6 +779,12 @@ class: "text-center"
 ---
 
 # Next Steps & Resources
+
+<div class="text-xl text-green-500 mb-6">
+  You're now equipped to build amazing blogs! 🎉
+</div>
+
+<!-- TODO: Add "Success" GIF - search "you got this celebration" -->
 
 <div class="grid grid-cols-3 gap-8 mt-6">
 
