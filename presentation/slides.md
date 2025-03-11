@@ -353,7 +353,7 @@ def navigation_pages(request):
 
 </div>
 
-<div v-click>
+<div>
 
 ### Configuration
 
@@ -601,7 +601,7 @@ transition: slide-up
 
 </div>
 
-<div v-click>
+<div>
 
 ### Tailwind Features Used:
 
@@ -648,8 +648,6 @@ layout: two-cols
 
 <div class="ml-8 mt-12">
 
-<v-clicks>
-
 ### Key Features
 
 - **Dashboard** - Quick access to content
@@ -658,9 +656,7 @@ layout: two-cols
 - **Reports** - Content insights
 - **Settings** - Site configuration
 
-</v-clicks>
-
-<div v-click class="mt-6">
+<div class="mt-6">
 
 ### Page Creation Flow
 
@@ -693,8 +689,6 @@ layout: section
 
 <div>
 
-<v-clicks>
-
 ### Production Settings
 
 ```python
@@ -724,11 +718,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 ```
 
-</v-clicks>
-
 </div>
 
-<div v-click>
+<div>
 
 ### Deployment Options
 
@@ -764,7 +756,7 @@ class: "text-center"
 
 <div class="grid grid-cols-3 gap-8 mt-6">
 
-<div v-click>
+<div>
 
 ### Enhancements
 
@@ -776,7 +768,7 @@ class: "text-center"
 
 </div>
 
-<div v-click>
+<div>
 
 ### Learning Resources
 
@@ -787,7 +779,7 @@ class: "text-center"
 
 </div>
 
-<div v-click>
+<div>
 
 ### Tools & Packages
 
@@ -800,7 +792,7 @@ class: "text-center"
 
 </div>
 
-<div class="mt-12 text-gray-500" v-click>
+<div class="mt-12 text-gray-500">
 
 Thank you! Questions?
 
