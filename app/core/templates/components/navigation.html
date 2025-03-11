@@ -17,6 +17,9 @@
                     {% if navigation_blogindex %}
                         {% include "components/navigation_item.html" with page=navigation_blogindex label="Blog" %}
                     {% endif %}
+                    {% if navigation_tagsindex %}
+                        {% include "components/navigation_item.html" with page=navigation_tagsindex label="Tags" %}
+                    {% endif %}
                 </ul>
             </div>
         </div>

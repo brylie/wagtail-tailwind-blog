@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block body_class %}template-tagsindexpage{% endblock %}
+
+{% block content %}
+    <div class="prose dark:prose-invert lg:prose-lg mx-auto">
+        <h1>{{ page.title }}</h1>
+        
+        {% if page.intro %}
+            <div class="lead text-xl text-gray-600 dark:text-gray-300 mb-8">
+                {{ page.intro|richtext }}
+            </div>
+        {% endif %}
+        
+        {% if is_filtered %}
+            {# Show filtered blog posts #}
+            <div class="mb-8">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-2xl font-bold">Posts tagged with "{{ tag }}"</h2>
+                    <a href="{% pageurl page %}" class="text-blue-600 dark:text-blue-400 hover:underline">
+                        View all tags
+                    </a>
+                </div>
+                
+                {% if blog_pages %}
+                    <div class="mt-8 space-y-8">
+                        {% for post in blog_pages %}
+                            <article class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden p-6">
+                                <h3 class="text-xl font-bold mb-2">
+                                    <a href="{% pageurl post %}" class="hover:text-blue-600 dark:hover:text-blue-400">
+                                        {{ post.title }}
+                                    </a>
+                                </h3>
+                                {% if post.date %}
+                                    <time datetime="{{ post.date|date:'Y-m-d' }}" 
+                                          class="text-sm text-gray-500 dark:text-gray-400">
+                                        {{ post.date|date:"F j, Y" }}
+                                    </time>
+                                {% endif %}
+                                
+                                {% if post.intro %}
+                                    <p class="mt-4 text-gray-600 dark:text-gray-300">
+                                        {{ post.intro|richtext|truncatewords_html:30 }}
+                                    </p>
+                                {% endif %}
+                            </article>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="mt-4">No posts found with this tag.</p>
+                {% endif %}
+            </div>
+        {% else %}
+            {# Show tag cloud #}
+            <h2 class="text-2xl font-bold mb-6">Tag Cloud</h2>
+            
+            {% if tags %}
+                <div class="flex flex-wrap gap-3">
+                    {% for tag_item in tags %}
+                        <a href="?tag={{ tag_item.tags__name|urlencode }}" 
+                           class="inline-flex items-center px-3 py-1.5 rounded-full 
+                                  text-sm font-medium bg-blue-100 text-blue-800 
+                                  dark:bg-blue-900 dark:text-blue-200 hover:bg-blue-200 
+                                  dark:hover:bg-blue-800 transition-colors"
+                           style="font-size: {{ tag_item.tag_count|add:80 }}%;">
+                            {{ tag_item.tags__name }}
+                            <span class="ml-2 bg-blue-200 dark:bg-blue-800 rounded-full px-2 py-0.5 text-xs">
+                                {{ tag_item.tag_count }}
+                            </span>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No tags found.</p>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}
