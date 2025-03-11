@@ -211,61 +211,68 @@ The max_count ensures we can only have one home page in our site.
 -->
 
 ---
+layout: two-cols
+---
 
 # Base Templates
 
-<div class="grid grid-cols-3 gap-4">
-<div class="col-span-2">
+<div>
 
-```html {0|1-2|4-7|9-12|14-17|all}
-<!-- templates/base.html -->
+```html {2|6-12|14-16|all}
 {% load static tailwind_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width">
     <title>{% block title %}{{ page.title }}{% endblock %}</title>
-    
     {% tailwind_css %}
-    
     {% block extra_css %}{% endblock %}
 </head>
-<body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+<body class="bg-white dark:bg-gray-900">
     <div class="container mx-auto px-4">
         {% include "includes/navigation.html" %}
-        
         <main class="py-8">
             {% block content %}{% endblock %}
         </main>
-        
-        {% include "includes/footer.html" %}
     </div>
-    
-    {% block extra_js %}{% endblock %}
 </body>
 </html>
 ```
 
 </div>
 
-<div v-click class="col-span-1">
+::right::
 
-### Template Structure
+<div class="ml-4">
 
-- Base HTML structure
-- Tailwind CSS integration
-- Template blocks for extension
-- Includes for navigation and footer
-- Container with responsive padding
+### Key Features
 
-</div>
+<v-clicks>
+
+- **Template Tags**
+  - `static` for assets
+  - `tailwind_tags` for styles
+
+- **Block System**
+  - `title` - Page title
+  - `content` - Main content
+  - `extra_css` - Additional styles
+
+- **Layout**
+  - Responsive container
+  - Dark mode support
+  - Navigation include
+  - Semantic HTML5
+
+</v-clicks>
+
 </div>
 
 <!--
-The base template provides the foundation for all pages. Note the tailwind_tags load and tailwind_css template tag.
-The container with mx-auto centers content and the px-4 provides responsive padding.
+The base template provides the foundation for all pages.
+Note how we use template inheritance and blocks for flexibility.
 -->
 
 ---
