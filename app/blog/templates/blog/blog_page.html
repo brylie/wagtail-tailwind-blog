@@ -1,17 +1,62 @@
 {% extends "base.html" %}
-
 {% load wagtailcore_tags %}
 
-{% block body_class %}template-blogpage{% endblock %}
-
 {% block content %}
-    <h1>{{ page.title }}</h1>
-    <p class="meta">{{ page.date }}</p>
+<article class="prose dark:prose-invert lg:prose-lg mx-auto">
+    <header class="mb-8 not-prose">
+        <h1 class="text-4xl font-bold mb-4">{{ page.title }}</h1>
+        
+        <div class="flex items-center space-x-4 text-gray-600 dark:text-gray-300">
+            {% if page.date %}
+                <time datetime="{{ page.date|date:'Y-m-d' }}" class="text-sm">
+                    {{ page.date|date:"F j, Y" }}
+                </time>
+            {% endif %}
+            
+            {% if page.tags.count %}
+                <div class="flex items-center space-x-2">
+                    <span class="sr-only">Tags:</span>
+                    {% for tag in page.tags.all %}
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                            {{ tag }}
+                        </span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </header>
 
-    <div class="intro">{{ page.intro }}</div>
+    {% if page.intro %}
+        <div class="lead text-xl text-gray-600 dark:text-gray-300 mb-8" aria-label="Introduction">
+            {{ page.intro|richtext }}
+        </div>
+    {% endif %}
 
-    {{ page.body|richtext }}
+    {% if page.body %}
+        <div class="article-content">
+            {{ page.body|richtext }}
+        </div>
+    {% endif %}
 
-    <p><a href="{{ page.get_parent.url }}">Return to blog</a></p>
-
+    <footer class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 not-prose">
+        <nav class="flex justify-between" aria-label="Post navigation">
+            {% with prev=page.get_prev_siblings.live.first next=page.get_next_siblings.live.first %}
+                <div>
+                    {% if prev %}
+                        <a href="{% pageurl prev %}" class="text-blue-600 dark:text-blue-400 hover:underline">
+                            ← {{ prev.title }}
+                        </a>
+                    {% endif %}
+                </div>
+                <div>
+                    {% if next %}
+                        <a href="{% pageurl next %}" class="text-blue-600 dark:text-blue-400 hover:underline">
+                            {{ next.title }} →
+                        </a>
+                    {% endif %}
+                </div>
+            {% endwith %}
+        </nav>
+    </footer>
+</article>
 {% endblock %}
