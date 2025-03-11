@@ -11,5 +11,5 @@ class HomePage(Page):
 
     max_count = 1
 
-    subpage_types = ["blog.BlogIndexPage"]
+    subpage_types = ["blog.BlogIndexPage", "blog.TagsIndexPage"]
     
