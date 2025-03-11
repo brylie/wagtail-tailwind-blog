@@ -542,10 +542,6 @@ urlpatterns = [
 ]
 ```
 
-
-
-
-
 ### Template Integration
 
 ```html
