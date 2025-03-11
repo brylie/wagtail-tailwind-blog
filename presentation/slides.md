@@ -276,85 +276,135 @@ Note how we use template inheritance and blocks for flexibility.
 -->
 
 ---
-layout: two-cols
 ---
-
-# Navigation Component
+# Navigation Menu: Template
 
 ```html
-<!-- templates/includes/navigation.html -->
-<nav class="py-4 flex justify-between items-center">
-    <a href="/" class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-        {{ site.site_name }}
-    </a>
-    
-    <div class="hidden md:flex space-x-4">
-        {% for item in navigation_items %}
-            <a href="{{ item.url }}" 
-               class="hover:text-indigo-600 dark:hover:text-indigo-400 
-                      {% if item.is_active %}font-bold{% endif %}">
-                {{ item.title }}
-            </a>
-        {% endfor %}
+<nav aria-label="Main navigation" class="bg-gray-800 shadow-lg">
+    <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+            <div class="flex-shrink-0">
+                <a href="{% pageurl navigation_homepage %}" 
+                   class="text-xl font-bold text-white hover:text-blue-200 transition-colors"
+                   aria-label="Home">
+                    {{ request.site.site_name|default:"Home" }}
+                </a>
+            </div>
+            
+            <div class="hidden md:block">
+                <ul class="flex space-x-8" role="menubar">
+                    {% include "components/navigation_item.html" with page=navigation_homepage label="Home" %}
+                    <!-- Additional Nav Items -->
+                </ul>
+            </div>
+        </div>
     </div>
-    
-    <!-- Mobile menu button -->
-    <button class="md:hidden" id="mobile-menu-button">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                  d="M4 6h16M4 12h16m-7 6h7"></path>
-        </svg>
-    </button>
 </nav>
-
-<!-- Mobile menu (hidden by default) -->
-<div class="md:hidden hidden" id="mobile-menu">
-    <!-- Mobile navigation items -->
-</div>
 ```
 
-::right::
+<!--
+- Responsive design with mobile menu
+- Dynamic navigation items from context
+- Active state highlighting
+- Dark mode support
+- Accessible button for mobile menu
+-->
 
-<div class="ml-4 mt-12" v-click>
+
+---
+---
+# Navigation Component: Nav Item
+
+```html
+{% load wagtailcore_tags %}
+
+<li role="none">
+    <a href="{% pageurl page %}" 
+       role="menuitem"
+       class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+       {% if request.path == page.url %}aria-current="page"{% endif %}>
+        {{ label }}
+    </a>
+</li>
+```
+
+---
+---
+# Navigation Component: Context
+
+<div class="grid grid-cols-2 gap-4">
+
+<div>
 
 ### Context Processor
 
-```python
+```python {all|2-3|5-14|16-21}
 # context_processors.py
-def navigation_items(request):
-    """Add navigation items to context."""
+from wagtail.models import Site
+from blog.models import BlogIndexPage, TagsIndexPage
+
+def navigation_pages(request):
+    site = Site.find_for_request(request)
+    homepage = site.root_page
     
-    # Get current page for active highlighting
-    current_page = request.path
+    try:
+        blogindex = BlogIndexPage.objects.live().first()
+    except BlogIndexPage.DoesNotExist:
+        blogindex = None
+        
+    try:
+        tagsindex = TagsIndexPage.objects.live().first()
+    except TagsIndexPage.DoesNotExist:
+        tagsindex = None
     
-    # Navigation structure
-    items = [
-        {"title": "Home", "url": "/", 
-         "is_active": current_page == "/"},
-        {"title": "Blog", "url": "/blog/", 
-         "is_active": current_page.startswith("/blog/")},
-        # More items...
-    ]
-    
-    return {"navigation_items": items}
+    return {
+        'navigation_homepage': homepage,
+        'navigation_blogindex': blogindex,
+        'navigation_tagsindex': tagsindex,
+    }
 ```
 
-<div class="mt-4">
-Adding to settings.py:
+</div>
+
+<div v-click>
+
+### Configuration
 
 ```python
-"context_processors": [
-    # ...
-    "myproject.context_processors.navigation_items",
+# settings.py
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'OPTIONS': {
+            'context_processors': [
+                # ...existing processors
+                'app.core.context_processors.navigation_pages',
+            ],
+        },
+    },
 ]
 ```
+
+### Usage in Templates
+
+```html
+<ul class="flex space-x-8" role="menubar">
+    {% include "components/navigation_item.html" 
+       with page=navigation_homepage label="Home" %}
+    {% if navigation_blogindex %}
+        {% include "components/navigation_item.html" 
+           with page=navigation_blogindex label="Blog" %}
+    {% endif %}
+</ul>
+```
+
 </div>
 
 </div>
 
 <!--
-The navigation component demonstrates responsive design with Tailwind.
-The context processor provides dynamic navigation data to all templates.
+The context processor provides navigation pages to all templates.
+It handles missing pages gracefully and uses Wagtail's site finder.
 -->
 
 ---
