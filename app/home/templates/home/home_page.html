@@ -1,12 +1,16 @@
 {% extends "base.html" %}
-
 {% load wagtailcore_tags %}
 
-{% block body_class %}template-homepage{% endblock %}
-
 {% block content %}
-<article>
-    <h1>{{ page.title }}</h1>
-    {{ page.body|richtext }}
-</article>
+    <article class="prose dark:prose-invert lg:prose-lg mx-auto">
+        <header class="mb-8">
+            <h1>{{ page.title }}</h1>
+        </header>
+
+        <section>
+            {% if page.body %}
+                {{ page.body|richtext }}
+            {% endif %}
+        </section>
+    </article>
 {% endblock %}

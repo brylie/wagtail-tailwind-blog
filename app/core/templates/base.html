@@ -1,7 +1,7 @@
 {% load static wagtailcore_tags wagtailuserbar %}
-
+{% load static tailwind_tags %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark:bg-gray-900">
     <head>
         <meta charset="utf-8" />
         <title>
@@ -25,23 +25,19 @@
 
         {# Global stylesheets #}
         <link rel="stylesheet" type="text/css" href="{% static 'css/core.css' %}">
+        {% tailwind_css %}
 
         {% block extra_css %}
         {# Override this in templates to add extra stylesheets #}
         {% endblock %}
-
-        <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
-        >
     </head>
 
-    <body class="{% block body_class %}{% endblock %}">
+    <body class="{% block body_class %}{% endblock %} min-h-screen bg-gray-50 dark:bg-gray-900 dark:text-gray-100">
         {% wagtailuserbar %}
         
         {% include "components/navigation.html" %}
 
-        <main class="container">
+        <main class="container mx-auto px-4 py-8 max-w-4xl">
             {% block content %}{% endblock %}
         </main>
 

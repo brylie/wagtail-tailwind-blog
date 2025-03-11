@@ -1,0 +1,10 @@
+{% load wagtailcore_tags %}
+
+<li role="none">
+    <a href="{% pageurl page %}" 
+       role="menuitem"
+       class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+       {% if request.path == page.url %}aria-current="page"{% endif %}>
+        {{ label }}
+    </a>
+</li>
