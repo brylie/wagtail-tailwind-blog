@@ -16,8 +16,6 @@ mdc: true
 
 Building a modern, responsive blog with Wagtail CMS and Tailwind CSS
 
-
-
 <div class="abs-br m-6 flex gap-2">
   <a href="https://wagtail.org" target="_blank" class="text-xl icon-btn opacity-50 !border-none !hover:text-white">
     <!-- <logos:wagtail /> -->
@@ -27,9 +25,17 @@ Building a modern, responsive blog with Wagtail CMS and Tailwind CSS
   </a>
 </div>
 
-
+<!--
 Welcome to this tutorial where we'll build a modern blog using Wagtail CMS and Tailwind CSS.
 
+In this presentation, we'll cover:
+- Setting up a Django project with Wagtail CMS
+- Integrating Tailwind CSS for modern styling
+- Creating models for our blog content
+- Building responsive templates
+- Understanding the admin interface
+- Deployment considerations
+-->
 
 ---
 layout: two-cols
@@ -37,41 +43,39 @@ layout: two-cols
 
 # Technology Stack
 
-<div class="mt-6"></div>
+<div class="mt-12"></div>
 
-<v-clicks>
-
-- **Django** - Web framework providing the foundation 
-- **Wagtail** - Feature-rich CMS built on Django
-- **Tailwind CSS** - Utility-first CSS framework
-- **django-tailwind** - Seamless Tailwind integration
-
-</v-clicks>
+```mermaid {theme: 'neutral', scale: 1.0}
+graph TD
+    Django --> Wagtail
+    Django --> Tailwind["Tailwind CSS"]
+    Wagtail --> HomeApp["Home App"]
+    Wagtail --> BlogApp["Blog App"]
+    Tailwind --> ThemeApp["Theme App"]
+```
 
 ::right::
 
-<div v-click class="ml-4 mt-12">
+<div class="ml-4 mt-12">
 
-```python {0|all}
-# Component Relationships
-Django
-└── Wagtail CMS
-    ├── Home App
-    └── Blog App
-└── Tailwind CSS
-    └── Theme App
-```
+<img src="https://docs.wagtail.org/en/stable/_static/logo.svg" class="h-20 mb-6" alt="Wagtail Logo" />
+<img src="https://tailwindcss.com/_next/static/media/tailwindcss-mark.3c5441fc7a190fb1800d4a5c7f07ba4b1345a9c8.svg" class="h-20" alt="Tailwind Logo" />
 
 </div>
 
-<div v-click class="mt-8 ml-4">
+<!--
+Our technology stack consists of:
 
-**What we'll build:**
+- Django - The web framework providing our foundation
+- Wagtail - A powerful, flexible CMS built on Django
+- Tailwind CSS - A utility-first CSS framework
+- django-tailwind - Package for seamless Tailwind integration
+
+What we'll build:
 - Home page with rich text content
 - Blog with tagging functionality
 - Responsive, modern UI with Tailwind
-
-</div>
+-->
 
 ---
 transition: fade
@@ -82,8 +86,6 @@ transition: fade
 <div class="grid grid-cols-2 gap-4">
 
 <div>
-
-<v-clicks>
 
 ### Environment Setup
 
@@ -101,11 +103,9 @@ pip install django wagtail
 pip install 'django-tailwind[reload]'
 ```
 
-</v-clicks>
-
 </div>
 
-<div v-click>
+<div>
 
 ### Project Creation
 
@@ -133,8 +133,17 @@ python manage.py runserver
 </div>
 
 <!--
-We start by setting up our development environment and installing the necessary packages.
-The [reload] option for django-tailwind gives us hot reloading during development.
+Let's start by setting up our development environment:
+
+1. We first create a virtual environment to isolate our dependencies
+2. Then we install the core packages - Django, Wagtail, and django-tailwind
+   - The [reload] option enables hot reloading during development
+3. We create a new Wagtail project using the CLI tool
+4. Initialize the database with migrations
+5. Create an admin user to access the CMS
+6. Start the development server to see our project
+
+These steps give us a working foundation to build upon.
 -->
 
 ---
@@ -143,8 +152,6 @@ image: https://images.unsplash.com/photo-1517842645767-c639042777db?q=80&w=1770
 ---
 
 # Project Structure
-
-<v-clicks>
 
 - **home/** - Home page app
   - models.py - Home page model
@@ -159,20 +166,15 @@ image: https://images.unsplash.com/photo-1517842645767-c639042777db?q=80&w=1770
   - settings/ - Configuration files
   - urls.py - URL routing
 
-</v-clicks>
-
 <!--
 This is the high-level structure of our project. We'll explore each of these components in detail.
 -->
 
 ---
-level: 2
 ---
 
 # Home App: Models
 
-<div class="grid grid-cols-3 gap-4">
-<div class="col-span-2">
 
 ```python {all|2-3|6-10|12|14}
 # home/models.py
@@ -191,23 +193,12 @@ class HomePage(Page):
     subpage_types = ["blog.BlogIndexPage", "blog.TagsIndexPage"]
 ```
 
-</div>
 
-<div v-click class="col-span-1">
-
-### Key Components
-
+<!-- 
 - Extends Wagtail's `Page` model
 - `RichTextField` for content editing
 - `max_count = 1` ensures only one home page
 - `subpage_types` defines allowed child pages
-
-</div>
-</div>
-
-<!-- 
-The HomePage model is simple but powerful. It extends Wagtail's Page model and adds a rich text field.
-The max_count ensures we can only have one home page in our site.
 -->
 
 ---
@@ -249,8 +240,6 @@ layout: two-cols
 
 ### Key Features
 
-<v-clicks>
-
 - **Template Tags**
   - `static` for assets
   - `tailwind_tags` for styles
@@ -265,8 +254,6 @@ layout: two-cols
   - Dark mode support
   - Navigation include
   - Semantic HTML5
-
-</v-clicks>
 
 </div>
 
@@ -453,17 +440,6 @@ layout: two-cols
 
 ```python {0|1-5|7-19|21-26|all}
 # blog/models.py (continued)
-
-from django.db import models
-from wagtail.models import Page
-from wagtail.fields import RichTextField, StreamField
-from wagtail.admin.panels import FieldPanel
-from wagtail.images.blocks import ImageChooserBlock
-from wagtail import blocks
-from modelcluster.fields import ParentalKey
-from modelcluster.contrib.taggit import ClusterTaggableManager
-from taggit.models import TaggedItemBase
-
 class BlogPageTag(TaggedItemBase):
     content_object = ParentalKey(
         'BlogPage',
@@ -493,32 +469,22 @@ class BlogPage(Page):
 
 <div class="mt-8 ml-4">
 
-<v-clicks>
-
 ### Key Features
 
 - `StreamField` for flexible content
   - Headings
   - Rich text paragraphs
   - Images
-
 - Tags for categorization
   - `ClusterTaggableManager`
   - `BlogPageTag` model for relationship
-
 - Admin panels for easy editing
-
 - Date field for chronological ordering
-
-</v-clicks>
-
-<div v-click class="mt-8">
 
 ### StreamField
 
 Wagtail's StreamField provides a block-based content editing experience similar to Gutenberg in WordPress but more customizable.
 
-</div>
 
 </div>
 
@@ -528,12 +494,9 @@ StreamField allows editors to build pages from predefined content blocks in any 
 -->
 
 ---
+---
 
 # Tailwind Integration
-
-<div class="grid grid-cols-2 gap-4">
-
-<div v-click>
 
 ### Installation Steps
 
@@ -545,35 +508,28 @@ python manage.py tailwind init
 python manage.py tailwind install
 ```
 
-</div>
-
-<div v-click>
-
 ### Configuration - settings.py
 
 ```python
 INSTALLED_APPS = [
-    # ...existing apps
     'tailwind',
     'theme',  # your newly created theme app
     'django_browser_reload',
 ]
-
 TAILWIND_APP_NAME = 'theme'
-
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
-
 MIDDLEWARE = [
     # ...existing middleware
     "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 ```
 
-</div>
+---
+---
+# Tailwind Integration continued
 
-<div v-click>
 
 ### URL Configuration - urls.py
 
@@ -586,9 +542,9 @@ urlpatterns = [
 ]
 ```
 
-</div>
 
-<div v-click>
+
+
 
 ### Template Integration
 
@@ -600,9 +556,9 @@ urlpatterns = [
 </head>
 ```
 
-</div>
 
-</div>
+
+
 
 <!--
 Tailwind integration requires several configuration steps, but the django-tailwind package makes it relatively straightforward.
