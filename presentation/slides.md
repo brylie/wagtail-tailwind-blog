@@ -416,6 +416,16 @@ It handles missing pages gracefully and uses Wagtail's site finder.
 
 ---
 
+# Blog Models: The Content Structure Challenge
+
+<div class="text-lg text-amber-500 mb-4">
+  Problem: How do we structure content to be both flexible for editors and maintainable for developers?
+</div>
+
+<div class="text-lg text-green-500 mb-6">
+  Solution: Wagtail's StreamField and hierarchical page models
+</div>
+
 # Blog Models: BlogIndexPage
 
 ```python {all|3-4|7-13|15-17|19-21|all}
@@ -585,6 +595,16 @@ The browser reload configuration enables hot reloading during development.
 transition: slide-up
 ---
 
+# Styling: The Maintainability Challenge
+
+<div class="text-lg text-amber-500 mb-4">
+  Problem: How do we keep styles maintainable while supporting dark mode and responsive design?
+</div>
+
+<div class="text-lg text-green-500 mb-6">
+  Solution: Tailwind's utility-first approach with component extraction
+</div>
+
 # Styling with Tailwind
 
 <div class="text-lg text-purple-400 mb-4">
@@ -708,6 +728,16 @@ layout: section
 # Deployment & Next Steps
 
 ---
+
+# Deployment: The Production Ready Challenge
+
+<div class="text-lg text-amber-500 mb-4">
+  Problem: Moving from development to a secure, performant production environment
+</div>
+
+<div class="text-lg text-green-500 mb-6">
+  Solution: Production settings, environment variables, and proper server configuration
+</div>
 
 # Deployment Considerations
 
