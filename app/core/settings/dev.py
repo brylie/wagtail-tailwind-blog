@@ -11,8 +11,12 @@ ALLOWED_HOSTS = ["*"]
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-
 try:
-    from .local import *
+    from .base import *
 except ImportError:
     pass
+
+# Set middleware based on the base.middleware without the XFrameOptionsMiddleware
+MIDDLEWARE = [
+    item for item in MIDDLEWARE if item != "django.middleware.clickjacking.XFrameOptionsMiddleware"
+]
