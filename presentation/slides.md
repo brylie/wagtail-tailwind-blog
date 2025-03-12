@@ -1,6 +1,6 @@
 ---
 theme: seriph
-background: https://images.unsplash.com/photo-1614332287897-cdc485fa562d?q=80&w=2070
+background: https://unsplash.com/photos/macbook-pro-dMUt0X3f59Q?q=80&w=2070
 title: Building a Modern Blog with Wagtail & Tailwind CSS
 info: |
   ## Wagtail-Tailwind Blog Tutorial
@@ -10,12 +10,14 @@ drawings:
   persist: false
 transition: slide-left
 mdc: true
+lineNumbers: true
 ---
 
 # Wagtail-Tailwind Blog
 
+<div class="text-xl text-grey-600 mt-4 shadow-md">
 Building lightning-fast ⚡️, beautiful blogs in record time!
-
+</div>
 <!-- TODO: Add "Speed" meme/GIF - search "fastest website meme" -->
 
 <div class="text-xl text-blue-400 mt-4">
@@ -25,14 +27,18 @@ Building lightning-fast ⚡️, beautiful blogs in record time!
 <div class="abs-br m-6 flex gap-2">
   <a href="https://wagtail.org" target="_blank" class="text-xl icon-btn opacity-50 !border-none !hover:text-white">
     <!-- <logos:wagtail /> -->
+    Wagtail
   </a>
+  +
   <a href="https://tailwindcss.com" target="_blank" class="text-xl icon-btn opacity-50 !border-none !hover:text-white">
     <!-- <logos:tailwindcss-icon /> -->
+    Tailwind
   </a>
 </div>
 
 ---
-layout: center
+layout: iframe-right
+url: http://127.0.0.1:8000/
 ---
 
 # Live Demo
@@ -40,10 +46,6 @@ layout: center
 <div class="text-lg text-green-500 mb-4">
   Here's what we'll build today
 </div>
-
-<iframe src="https://demo-wagtail-blog.herokuapp.com" 
-        class="w-full h-96 rounded-lg shadow-xl border-2 border-gray-200">
-</iframe>
 
 <div class="text-sm text-gray-500 mt-2">
   30-second preview of our finished blog
@@ -68,7 +70,7 @@ layout: two-cols
     <div class="text-3xl">🎨</div>
     <div>
       <div class="font-bold">Modern Styling</div>
-      <div class="text-sm text-gray-600">Tailwind CSS mastery</div>
+      <div class="text-sm text-gray-600">Tailwind CSS basics</div>
     </div>
   </div>
   
@@ -79,7 +81,7 @@ layout: two-cols
       <div class="text-sm text-gray-600">Blog structure & relations</div>
     </div>
   </div>
-  
+  <!--TODO: Consider whether we want deployment instructions in the presentation-->
   <div class="flex items-center space-x-4">
     <div class="text-3xl">🚀</div>
     <div>
@@ -100,6 +102,7 @@ layout: two-cols
 - Learn modern CSS practices
 - Implement responsive design
 - Handle content relationships
+<!--TODO: Consider whether we want deployment instructions in the presentation-->
 - Deploy with confidence
 
 <div class="mt-8 text-sm text-gray-500">
@@ -129,10 +132,10 @@ graph TD
 
 ::right::
 
-<div class="ml-4 mt-12">
+<div class="ml-40 mt-30">
 
-<img src="https://docs.wagtail.org/en/stable/_static/logo.svg" class="h-20 mb-6" alt="Wagtail Logo" />
-<img src="https://tailwindcss.com/_next/static/media/tailwindcss-mark.3c5441fc7a190fb1800d4a5c7f07ba4b1345a9c8.svg" class="h-20" alt="Tailwind Logo" />
+<img src="https://wagtail.org/static/img/default-sharing-image.488db1f9c279.png" class="h-20 mb-6" alt="Wagtail Logo" />
+<img src="https://v3.tailwindcss.com/_next/static/media/tailwindcss-mark.3c5441fc7a190fb1800d4a5c7f07ba4b1345a9c8.svg" class="h-20" alt="Tailwind Logo" />
 
 </div>
 
@@ -171,7 +174,8 @@ transition: fade
 ```bash
 # Create and activate virtual environment
 python -m venv venv
-source venv/bin/activate  # or venv\Scripts\activate on Windows
+source venv/bin/activate
+# or venv\Scripts\activate on Windows
 ```
 
 ### Installing Dependencies
@@ -179,12 +183,7 @@ source venv/bin/activate  # or venv\Scripts\activate on Windows
 ```bash
 # Install core packages
 pip install django wagtail
-pip install 'django-tailwind[reload]'
 ```
-
-</div>
-
-<div>
 
 ### Project Creation
 
@@ -193,17 +192,25 @@ pip install 'django-tailwind[reload]'
 wagtail start myproject
 cd myproject
 ```
+We'll configure Django-Tailwind shortly...
+
+</div>
+<!--this basically creates a column break-->
+<div>
+
+
 
 ### Database Setup
 
 ```bash
-# Initialize database
+# Initialize database with superuser
 python manage.py migrate
-
-# Create admin user
 python manage.py createsuperuser
+```
 
-# Start development server
+### Run the Project
+Run these commands in separate terminals:
+```bash
 python manage.py runserver
 ```
 
@@ -226,6 +233,107 @@ These steps give us a working foundation to build upon.
 -->
 
 ---
+---
+
+# Tailwind Integration
+
+### Installation Steps
+
+```bash
+# Initialize Tailwind in the project
+python manage.py tailwind init
+
+# Install Tailwind dependencies
+python manage.py tailwind install
+```
+
+### Configuration - settings.py
+
+```python
+INSTALLED_APPS = [
+    'tailwind',
+    'theme',  # your newly created theme app
+    'django_browser_reload',
+]
+TAILWIND_APP_NAME = 'theme'
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+MIDDLEWARE = [
+    # ...existing middleware
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
+]
+```
+
+---
+---
+# Tailwind Integration continued
+
+
+### URL Configuration - urls.py
+
+```python
+from django.urls import include, path
+
+urlpatterns = [
+    # ...existing patterns
+    path("__reload__/", include("django_browser_reload.urls")),
+]
+```
+
+### Template Integration
+
+Load Tailwind in the `myapp/templates/base.html`
+
+```html
+{% load static tailwind_tags %}
+<head>
+    <!-- other head elements -->
+    {% tailwind_css %}
+</head>
+```
+
+
+
+
+
+<!--
+Tailwind integration requires several configuration steps, but the django-tailwind package makes it relatively straightforward.
+The browser reload configuration enables hot reloading during development.
+-->
+
+---
+transition: slide-up
+layout: statement
+---
+
+# Styling: The Maintainability Challenge
+
+<div class="text-lg text-amber-500 mb-4">
+  Problem: How do we keep styles maintainable while supporting dark mode and responsive design?
+</div>
+
+<div class="text-lg text-green-600 mb-6">
+  Solution: Tailwind's utility-first approach with component extraction
+</div>
+
+# Styling with Tailwind
+
+<div class="text-md text-purple-400 mb-4">
+  Making CSS fun again (while polluting our HTML)! 🎨
+</div>
+
+<!--
+Tailwind makes styling straightforward with utility classes. The prose plugin is particularly useful for blog content.
+Dark mode is handled with dark: prefixed classes, making theme implementation simpler.
+-->
+
+---
+layout: section
+---
+# Building the project
+
+---
 layout: image-right
 image: https://images.unsplash.com/photo-1517842645767-c639042777db?q=80&w=1770
 ---
@@ -233,17 +341,17 @@ image: https://images.unsplash.com/photo-1517842645767-c639042777db?q=80&w=1770
 # Project Structure
 
 - **home/** - Home page app
-  - models.py - Home page model
-  - templates/ - Home page templates
+  - `models.py` - Home page model
+  - `templates/` - Home page templates
 - **blog/** - Blog application
-  - models.py - Blog models
-  - templates/ - Blog templates
+  - `models.py` - Blog models
+  - `templates/` - Blog templates
 - **theme/** - Tailwind app (generated)
-  - static/ - Compiled CSS
-  - templates/ - Base templates
+  - `static/` - Compiled CSS
+  - `templates/` - Base templates
 - **myproject/** - Project settings
-  - settings/ - Configuration files
-  - urls.py - URL routing
+  - `settings/` - Configuration files
+  - `urls.py` - URL routing
 
 <!--
 This is the high-level structure of our project. We'll explore each of these components in detail.
@@ -255,7 +363,7 @@ This is the high-level structure of our project. We'll explore each of these com
 # Home App: Models
 
 
-```python {all|2-3|6-10|12|14}
+```python {all|2-4|6-10|12|14}
 # home/models.py
 from django.db import models
 from wagtail.models import Page
@@ -288,7 +396,7 @@ layout: two-cols
 
 <div>
 
-```html {2|6-12|14-16|all}
+```html {all|1|5-11|13-18}
 {% load static tailwind_tags %}
 
 <!DOCTYPE html>
@@ -322,12 +430,10 @@ layout: two-cols
 - **Template Tags**
   - `static` for assets
   - `tailwind_tags` for styles
-
 - **Block System**
   - `title` - Page title
   - `content` - Main content
   - `extra_css` - Additional styles
-
 - **Layout**
   - Responsive container
   - Dark mode support
@@ -339,144 +445,6 @@ layout: two-cols
 <!--
 The base template provides the foundation for all pages.
 Note how we use template inheritance and blocks for flexibility.
--->
-
----
----
-# Navigation Menu: Template
-
-<div class="text-lg text-orange-400 mb-4">
-  Pro tip: Navigation is like a good joke - timing is everything! ⚡️
-</div>
-
-<!-- TODO: Add "Navigation" meme - search "website navigation maze meme" -->
-
-```html
-<nav aria-label="Main navigation" class="bg-gray-800 shadow-lg">
-    <div class="container mx-auto px-4">
-        <div class="flex items-center justify-between h-16">
-            <div class="flex-shrink-0">
-                <a href="{% pageurl navigation_homepage %}" 
-                   class="text-xl font-bold text-white hover:text-blue-200 transition-colors"
-                   aria-label="Home">
-                    {{ request.site.site_name|default:"Home" }}
-                </a>
-            </div>
-            
-            <div class="hidden md:block">
-                <ul class="flex space-x-8" role="menubar">
-                    {% include "components/navigation_item.html" with page=navigation_homepage label="Home" %}
-                    <!-- Additional Nav Items -->
-                </ul>
-            </div>
-        </div>
-    </div>
-</nav>
-```
-
-<!--
-- Responsive design with mobile menu
-- Dynamic navigation items from context
-- Active state highlighting
-- Dark mode support
-- Accessible button for mobile menu
--->
-
-
----
----
-# Navigation Component: Nav Item
-
-```html
-{% load wagtailcore_tags %}
-
-<li role="none">
-    <a href="{% pageurl page %}" 
-       role="menuitem"
-       class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-       {% if request.path == page.url %}aria-current="page"{% endif %}>
-        {{ label }}
-    </a>
-</li>
-```
-
----
----
-# Navigation Component: Context
-
-<div class="grid grid-cols-2 gap-4">
-
-<div>
-
-### Context Processor
-
-```python {all|2-3|5-14|16-21}
-# context_processors.py
-from wagtail.models import Site
-from blog.models import BlogIndexPage, TagsIndexPage
-
-def navigation_pages(request):
-    site = Site.find_for_request(request)
-    homepage = site.root_page
-    
-    try:
-        blogindex = BlogIndexPage.objects.live().first()
-    except BlogIndexPage.DoesNotExist:
-        blogindex = None
-        
-    try:
-        tagsindex = TagsIndexPage.objects.live().first()
-    except TagsIndexPage.DoesNotExist:
-        tagsindex = None
-    
-    return {
-        'navigation_homepage': homepage,
-        'navigation_blogindex': blogindex,
-        'navigation_tagsindex': tagsindex,
-    }
-```
-
-</div>
-
-<div>
-
-### Configuration
-
-```python
-# settings.py
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'OPTIONS': {
-            'context_processors': [
-                # ...existing processors
-                'app.core.context_processors.navigation_pages',
-            ],
-        },
-    },
-]
-```
-
-### Usage in Templates
-
-```html
-<ul class="flex space-x-8" role="menubar">
-    {% include "components/navigation_item.html" 
-       with page=navigation_homepage label="Home" %}
-    {% if navigation_blogindex %}
-        {% include "components/navigation_item.html" 
-           with page=navigation_blogindex label="Blog" %}
-    {% endif %}
-</ul>
-```
-
-</div>
-
-</div>
-
-<!--
-The context processor provides navigation pages to all templates.
-It handles missing pages gracefully and uses Wagtail's site finder.
 -->
 
 ---
@@ -589,159 +557,135 @@ StreamField allows editors to build pages from predefined content blocks in any 
 -->
 
 ---
+layout: section
 ---
+# Navigation component
 
-# Tailwind Integration
-
-### Installation Steps
-
-```bash
-# Initialize Tailwind in the project
-python manage.py tailwind init
-
-# Install Tailwind dependencies
-python manage.py tailwind install
-```
-
-### Configuration - settings.py
-
-```python
-INSTALLED_APPS = [
-    'tailwind',
-    'theme',  # your newly created theme app
-    'django_browser_reload',
-]
-TAILWIND_APP_NAME = 'theme'
-INTERNAL_IPS = [
-    "127.0.0.1",
-]
-MIDDLEWARE = [
-    # ...existing middleware
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
-]
-```
+Navigation is one of the most important aspects of the site.
 
 ---
 ---
-# Tailwind Integration continued
-
-
-### URL Configuration - urls.py
-
-```python
-from django.urls import include, path
-
-urlpatterns = [
-    # ...existing patterns
-    path("__reload__/", include("django_browser_reload.urls")),
-]
-```
-
-### Template Integration
-
-```html
-{% load static tailwind_tags %}
-<head>
-    <!-- other head elements -->
-    {% tailwind_css %}
-</head>
-```
-
-
-
-
-
-<!--
-Tailwind integration requires several configuration steps, but the django-tailwind package makes it relatively straightforward.
-The browser reload configuration enables hot reloading during development.
--->
-
----
-transition: slide-up
----
-
-# Styling: The Maintainability Challenge
-
-<div class="text-lg text-amber-500 mb-4">
-  Problem: How do we keep styles maintainable while supporting dark mode and responsive design?
-</div>
-
-<div class="text-lg text-green-500 mb-6">
-  Solution: Tailwind's utility-first approach with component extraction
-</div>
-
-# Styling with Tailwind
-
-<div class="text-lg text-purple-400 mb-4">
-  Making CSS fun again! 🎨
-</div>
-
-<!-- TODO: Add "CSS" meme - search "css frustration meme" -->
+# Navigation Component: Context
 
 <div class="grid grid-cols-2 gap-4">
 
 <div>
 
-```html {all|3-4|6-12|14-23|all}
-<!-- blog/templates/blog/blog_page.html -->
+### Context Processor
 
-<article class="max-w-2xl mx-auto prose 
-              dark:prose-invert">
-  
-  <header class="mb-8">
-    <h1 class="text-3xl font-bold mb-2">{{ page.title }}</h1>
-    <div class="text-gray-600 dark:text-gray-400 mb-4">
-      {{ page.date|date:"F j, Y" }}
-    </div>
-    {% include "blog/tags.html" with tags=page.tags.all %}
-  </header>
-  
-  <div class="mb-8">
-    {{ page.intro }}
-  </div>
-  
-  <div>
-    {% for block in page.body %}
-      <div class="mb-6">
-        {% include_block block %}
-      </div>
-    {% endfor %}
-  </div>
-</article>
+```python {all|2-3|5-14|16-21}
+# context_processors.py
+from wagtail.models import Site
+from blog.models import BlogIndexPage, TagsIndexPage
+
+def navigation_pages(request):
+    site = Site.find_for_request(request)
+    homepage = site.root_page
+    try:
+        blogindex = BlogIndexPage.objects.live().first()
+    except BlogIndexPage.DoesNotExist:
+        blogindex = None
+    try:
+        tagsindex = TagsIndexPage.objects.live().first()
+    except TagsIndexPage.DoesNotExist:
+        tagsindex = None
+    return {
+        'navigation_homepage': homepage,
+        'navigation_blogindex': blogindex,
+        'navigation_tagsindex': tagsindex,
+    }
 ```
 
 </div>
 
 <div>
 
-### Tailwind Features Used:
+### Configuration
 
-- **Layout**
-  - `max-w-2xl` - Maximum width constraint
-  - `mx-auto` - Center alignment
-  - `mb-8` - Bottom margin spacing
-
-- **Typography**
-  - `prose` - Typography plugin for blog content
-  - `text-3xl` - Font size utilities
-  - `font-bold` - Font weight
-
-- **Responsive Design**
-  - No explicit breakpoints needed in this component
-  - Inherits responsive behavior from base layout
-
-- **Dark Mode**
-  - `dark:prose-invert` - Inverted text for dark mode
-  - `dark:text-gray-400` - Dark mode text color
+```python
+# settings.py
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'OPTIONS': {
+            'context_processors': [
+                # ...existing processors
+                'app.core.context_processors.navigation_pages',
+            ],
+        },
+    },
+]
+```
 
 </div>
 
 </div>
 
 <!--
-Tailwind makes styling straightforward with utility classes. The prose plugin is particularly useful for blog content.
-Dark mode is handled with dark: prefixed classes, making theme implementation simpler.
+The context processor provides navigation pages to all templates.
+It handles missing pages gracefully and uses Wagtail's site finder.
 -->
+
+---
+---
+# Navigation Menu: Template
+
+<div class="text-lg text-orange-400 mb-4">
+  Pro tip: Navigation is like a good joke - if you have to explain it, it's not that good! ⚡️
+</div>
+
+<!-- TODO: Add "Navigation" meme - search "website navigation maze meme" -->
+
+```html {all|1|2-5|6-10|15|all}
+{% load wagtailcore_tags %}
+<nav aria-label="Main navigation" class="bg-gray-800 shadow-lg">
+    <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+            <div class="flex-shrink-0">
+                <a href="{% pageurl navigation_homepage %}" 
+                   class="text-xl font-bold text-white hover:text-blue-200 transition-colors"
+                   aria-label="Home">
+                    {{ request.site.site_name|default:"Home" }}
+                </a>
+            </div>
+            
+            <div class="hidden md:block">
+                <ul class="flex space-x-8" role="menubar">
+                    {% include "components/navigation_item.html" with page=navigation_homepage label="Home" %}
+                    <!-- Additional Nav Items -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+```
+
+<!--
+- Responsive design with mobile menu
+- Dynamic navigation items from context
+- Active state highlighting
+- Dark mode support
+- Accessible button for mobile menu
+-->
+
+
+---
+---
+# Navigation Component: Nav Item
+
+```html {all|1|3-10|all}
+{% load wagtailcore_tags %}
+
+<li role="none">
+    <a href="{% pageurl page %}" 
+       role="menuitem"
+       class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+       {% if request.path == page.url %}aria-current="page"{% endif %}>
+        {{ label }}
+    </a>
+</li>
+```
+
 
 ---
 layout: two-cols
