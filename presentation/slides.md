@@ -8,7 +8,7 @@ info: |
 class: text-center
 drawings:
   persist: false
-transition: slide-left
+transition: fade
 mdc: true
 lineNumbers: true
 ---
@@ -16,7 +16,7 @@ lineNumbers: true
 # Wagtail-Tailwind Blog
 
 <div class="text-xl text-grey-600 mt-4 shadow-md">
-Building lightning-fast ⚡️, beautiful blogs in record time!
+Building lightning-fast ⚡️ beautiful blogs in record time!
 </div>
 <!-- TODO: Add "Speed" meme/GIF - search "fastest website meme" -->
 
@@ -113,6 +113,7 @@ layout: two-cols
 
 ---
 layout: two-cols
+transition: fade
 ---
 
 # Technology Stack
@@ -183,6 +184,7 @@ source venv/bin/activate
 ```bash
 # Install core packages
 pip install django wagtail
+pip install 'django-tailwind[reload]'
 ```
 
 ### Project Creation
@@ -451,19 +453,8 @@ Note how we use template inheritance and blocks for flexibility.
 
 # Blog Models: The Content Structure Challenge
 
-<div class="text-lg text-amber-500 mb-4">
-  Problem: How do we structure content to be both flexible for editors and maintainable for developers?
-</div>
-
-<div class="text-lg text-green-500 mb-6">
-  Solution: Wagtail's StreamField and hierarchical page models
-</div>
-
-# Blog Models: BlogIndexPage
-
-```python {all|3-4|7-13|15-17|19-21|all}
+```python {all|3-4|7-13|15-17|19-23|all}
 # blog/models.py
-
 from django.db import models
 from wagtail.models import Page
 from wagtail.fields import RichTextField
@@ -475,8 +466,6 @@ class BlogIndexPage(Page):
     content_panels = Page.content_panels + [
         FieldPanel('intro')
     ]
-    
-    # Only allow BlogPage children
     subpage_types = ['blog.BlogPage']
     
     # Get live blog posts ordered by date
@@ -501,7 +490,7 @@ layout: two-cols
 
 # Blog Models: BlogPage
 
-```python {0|1-5|7-19|21-26|all}
+```python {all|1-7|9-17|19-24|all}
 # blog/models.py (continued)
 class BlogPageTag(TaggedItemBase):
     content_object = ParentalKey(
@@ -567,13 +556,11 @@ Navigation is one of the most important aspects of the site.
 ---
 # Navigation Component: Context
 
-<div class="grid grid-cols-2 gap-4">
 
-<div>
 
 ### Context Processor
 
-```python {all|2-3|5-14|16-21}
+```python {all|2-3|5-7|8-11|12-15|16-20|all}
 # context_processors.py
 from wagtail.models import Site
 from blog.models import BlogIndexPage, TagsIndexPage
@@ -596,30 +583,26 @@ def navigation_pages(request):
     }
 ```
 
-</div>
+---
 
-<div>
 
-### Configuration
+# Context Processor Configuration
 
 ```python
 # settings.py
 TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'OPTIONS': {
-            'context_processors': [
-                # ...existing processors
-                'app.core.context_processors.navigation_pages',
-            ],
-        },
+  {
+    'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    'OPTIONS': {
+      'context_processors': [
+        # ...existing processors
+        'app.core.context_processors.navigation_pages',
+      ],
     },
+  },
 ]
 ```
 
-</div>
-
-</div>
 
 <!--
 The context processor provides navigation pages to all templates.
@@ -679,7 +662,9 @@ It handles missing pages gracefully and uses Wagtail's site finder.
 <li role="none">
     <a href="{% pageurl page %}" 
        role="menuitem"
-       class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+       class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-300 hover:text-white
+       hover:bg-gray-700 rounded-md transition-colors focus:outline-none focus:ring-2 
+       focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
        {% if request.path == page.url %}aria-current="page"{% endif %}>
         {{ label }}
     </a>
@@ -731,88 +716,6 @@ The page hierarchy is central to Wagtail's content organization system.
 -->
 
 ---
-layout: section
----
-
-# Deployment & Next Steps
-
----
-
-# Deployment: The Production Ready Challenge
-
-<div class="text-lg text-amber-500 mb-4">
-  Problem: Moving from development to a secure, performant production environment
-</div>
-
-<div class="text-lg text-green-500 mb-6">
-  Solution: Production settings, environment variables, and proper server configuration
-</div>
-
-# Deployment Considerations
-
-<div class="grid grid-cols-2 gap-8">
-
-<div>
-
-### Production Settings
-
-```python
-# settings/production.py
-
-DEBUG = False
-
-SECRET_KEY = os.environ.get('SECRET_KEY')
-
-ALLOWED_HOSTS = [
-    'yourdomain.com', 
-    'www.yourdomain.com'
-]
-
-# Database configuration
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        # Other DB settings...
-    }
-}
-
-# Static files
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-```
-
-</div>
-
-<div>
-
-### Deployment Options
-
-- **Platform as a Service**
-  - Heroku
-  - PythonAnywhere
-  - DigitalOcean App Platform
-
-- **Virtual Private Server**
-  - Nginx + Gunicorn
-  - Docker containers
-  - Traefik for routing
-
-- **Static Site Generation**
-  - For performance optimization
-  - Consider Wagtail-based static site generators
-
-</div>
-
-</div>
-
-<!--
-When deploying, you'll need to consider various factors including database configuration, static files, and security settings.
-There are multiple deployment options depending on your requirements and budget.
--->
-
----
 layout: center
 class: "text-center"
 ---
@@ -820,7 +723,7 @@ class: "text-center"
 # Next Steps & Resources
 
 <div class="text-xl text-green-500 mb-6">
-  You're now equipped to build amazing blogs! 🎉
+  You're now equipped to build amazing blogs and other Wagtail projects! 🎉
 </div>
 
 <!-- TODO: Add "Success" GIF - search "you got this celebration" -->
@@ -831,11 +734,11 @@ class: "text-center"
 
 ### Enhancements
 
-- Comments system
-- Newsletter integration
-- Social media sharing
-- SEO optimization
-- Analytics integration
+Comments system<br/>
+Newsletter integration<br/>
+Social media sharing<br/>
+SEO optimization<br/>
+Analytics integration<br/>
 
 </div>
 
@@ -843,10 +746,10 @@ class: "text-center"
 
 ### Learning Resources
 
-- [Wagtail Documentation](https://docs.wagtail.org/)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-- [Django Documentation](https://docs.djangoproject.com/)
-- [Wagtail Community](https://github.com/wagtail/wagtail/wiki/Community)
+[Wagtail Documentation](https://docs.wagtail.org/)<br/>
+[Tailwind CSS Documentation](https://tailwindcss.com/docs)<br/>
+[Django Documentation](https://docs.djangoproject.com/)<br/>
+[Wagtail Community](https://github.com/wagtail/wagtail/wiki/Community)<br/>
 
 </div>
 
@@ -854,20 +757,14 @@ class: "text-center"
 
 ### Tools & Packages
 
-- [wagtail-markdown](https://github.com/torchbox/wagtail-markdown)
-- [wagtail-factories](https://github.com/wagtail/wagtail-factories)
-- [django-tailwind-cli](https://pypi.org/project/django-tailwind-cli/)
-- [wagtail-2fa](https://github.com/labd/wagtail-2fa)
+[wagtail-markdown](https://github.com/torchbox/wagtail-markdown)<br/>
+[wagtail-factories](https://github.com/wagtail/wagtail-factories)<br/>
+[Awesome Wagtail](https://github.com/springload/awesome-wagtail)<br/>
 
 </div>
 
 </div>
 
-<div class="mt-12 text-gray-500">
-
-Thank you! Questions?
-
-</div>
 
 <!--
 This concludes our tutorial, but there are many ways to extend and enhance your Wagtail-Tailwind blog.
