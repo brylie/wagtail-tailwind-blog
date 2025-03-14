@@ -25,7 +25,6 @@ INTERNAL_IPS = [
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 TAILWIND_APP_NAME = "theme"
-
 # Application definition
 INSTALLED_APPS = [
     "blog",
