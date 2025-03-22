@@ -520,6 +520,47 @@ It demonstrates Wagtail's powerful context manipulation to provide data to templ
 ---
 ---
 
+# Blog Template: BlogIndexPage
+
+```html {all|1-2|4|6-13|15-18|19-27|all}
+<h1>{{ page.title }}</h1>
+{% if page.intro %}
+    <div>
+        {{ page.intro|richtext }}
+    </div>
+{% endif %}
+
+
+{% if page.get_children.live %}
+    {% for post in page.get_children.live.specific %}
+        <article>
+            <div>
+                <h2>
+                    <a href="{% pageurl post %}">
+                        {{ post.title }}
+                    </a>
+                </h2>
+                {% if post.date %}
+                    <time datetime="{{ post.date|date:'Y-m-d' }}">
+                        {{ post.date|date:"F j, Y" }}
+                    </time>
+                {% endif %}
+            </div>
+        </article>
+```
+
+<!--
+The BlogIndexPage template shows how to render the blog listing.
+Note how we extend the base template and use Wagtail's template tags.
+The template displays the page title and rich text intro from the model.
+We're using page.get_children.live.specific to access all child pages with their specific content.
+The pageurl tag generates proper URLs for each blog post.
+The template handles the case where no blog posts exist yet.
+-->
+
+---
+---
+
 # Blog Models: BlogPage
 
 ```python {all|1-7|9-17|19-24|all}
