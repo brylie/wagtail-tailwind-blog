@@ -522,7 +522,8 @@ It demonstrates Wagtail's powerful context manipulation to provide data to templ
 
 # Blog Template: BlogIndexPage
 
-```html {all|1|3-5|8-20|10-14|16-18|all}
+```html {all|1|2|4-6|9-22|12-15|17-19|all}
+{% load wagtailcore_tags %}
 <h1>{{ page.title }}</h1>
 
 <div>
