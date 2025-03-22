@@ -530,7 +530,7 @@ It demonstrates Wagtail's powerful context manipulation to provide data to templ
 </div>
 
     
-{% for post in page.get_children.live.specific %}
+{% for post in posts %}
 <div>
     <h2>
         <a href="{% pageurl post %}">
