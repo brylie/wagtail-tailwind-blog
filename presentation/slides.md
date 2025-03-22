@@ -1,6 +1,5 @@
 ---
-theme: seriph
-background: https://unsplash.com/photos/macbook-pro-dMUt0X3f59Q?q=80&w=2070
+theme: default
 title: Building a Modern Blog with Wagtail & Tailwind CSS
 info: |
   ## Wagtail-Tailwind Blog Tutorial
@@ -15,25 +14,13 @@ lineNumbers: true
 
 # Wagtail-Tailwind Blog
 
-<div class="text-xl text-grey-600 mt-4 shadow-md">
+<div class="text-xl text-grey-600 mt-4">
 Building lightning-fast ⚡️ beautiful blogs in record time!
 </div>
 <!-- TODO: Add "Speed" meme/GIF - search "fastest website meme" -->
 
 <div class="text-xl text-blue-400 mt-4">
   "Because life's too short for slow, ugly websites"
-</div>
-
-<div class="abs-br m-6 flex gap-2">
-  <a href="https://wagtail.org" target="_blank" class="text-xl icon-btn opacity-50 !border-none !hover:text-white">
-    <!-- <logos:wagtail /> -->
-    Wagtail
-  </a>
-  +
-  <a href="https://tailwindcss.com" target="_blank" class="text-xl icon-btn opacity-50 !border-none !hover:text-white">
-    <!-- <logos:tailwindcss-icon /> -->
-    Tailwind
-  </a>
 </div>
 
 ---
@@ -44,11 +31,56 @@ url: http://127.0.0.1:8000/
 # Live Demo
 
 <div class="text-lg text-green-500 mb-4">
-  Here's what we'll build today
+  Here's the project we'll explore today:
 </div>
 
 <div class="text-sm text-gray-500 mt-2">
-  30-second preview of our finished blog
+  Source code: github.com/brylie/wagtail-tailwind-blog
+</div>
+
+<div class="text-lg text-blue-300 mt-4">
+<div class="text-3xl">🎨</div>
+  Leave a comment if you'd like me to build your project idea. 🤝
+</div>
+
+---
+layout: iframe-right
+url: http://127.0.0.1:8000/blog
+---
+
+# Live Demo
+
+<div class="text-lg text-green-500 mb-4">
+  Here's the project we'll explore today:
+</div>
+
+<div class="text-sm text-gray-500 mt-2">
+  Source code: github.com/brylie/wagtail-tailwind-blog
+</div>
+
+<div class="text-lg text-blue-300 mt-4">
+<div class="text-3xl">🎨</div>
+  Leave a comment if you'd like me to build your project idea. 🤝
+</div>
+
+---
+layout: iframe-right
+url: http://127.0.0.1:8000/tags/
+---
+
+# Live Demo
+
+<div class="text-lg text-green-500 mb-4">
+  Here's the project we'll explore today:
+</div>
+
+<div class="text-sm text-gray-500 mt-2">
+  Source code: github.com/brylie/wagtail-tailwind-blog
+</div>
+
+<div class="text-lg text-blue-300 mt-4">
+<div class="text-3xl">🎨</div>
+  Leave a comment if you'd like me to build your project idea. 🤝
 </div>
 
 ---
@@ -133,8 +165,9 @@ graph TD
 
 ::right::
 
-<div class="ml-40 mt-30">
+<div class="ml-40 mt-25">
 
+<img src="https://static.djangoproject.com/img/logos/django-logo-negative.svg" class="h-20 mb-6" alt="Django Logo" />
 <img src="https://wagtail.org/static/img/default-sharing-image.488db1f9c279.png" class="h-20 mb-6" alt="Wagtail Logo" />
 <img src="https://v3.tailwindcss.com/_next/static/media/tailwindcss-mark.3c5441fc7a190fb1800d4a5c7f07ba4b1345a9c8.svg" class="h-20" alt="Tailwind Logo" />
 
@@ -160,15 +193,8 @@ transition: fade
 
 # Project Setup
 
-<div class="text-xl text-green-500 mb-4">
-  Let's build something awesome! 🚀
-</div>
-
 <!-- TODO: Add "Building" GIF - search "building lego timelapse" -->
 
-<div class="grid grid-cols-2 gap-4">
-
-<div>
 
 ### Environment Setup
 
@@ -184,7 +210,6 @@ source venv/bin/activate
 ```bash
 # Install core packages
 pip install django wagtail
-pip install 'django-tailwind[reload]'
 ```
 
 ### Project Creation
@@ -194,31 +219,6 @@ pip install 'django-tailwind[reload]'
 wagtail start myproject
 cd myproject
 ```
-We'll configure Django-Tailwind shortly...
-
-</div>
-<!--this basically creates a column break-->
-<div>
-
-
-
-### Database Setup
-
-```bash
-# Initialize database with superuser
-python manage.py migrate
-python manage.py createsuperuser
-```
-
-### Run the Project
-Run these commands in separate terminals:
-```bash
-python manage.py runserver
-```
-
-</div>
-
-</div>
 
 <!--
 Let's start by setting up our development environment:
@@ -235,6 +235,27 @@ These steps give us a working foundation to build upon.
 -->
 
 ---
+transition: slide-up
+layout: statement
+---
+
+# Maintainable Styles
+
+<div class="text-lg text-amber-500 mb-4">
+  Problem: How do we keep styles maintainable while supporting dark mode and responsive design?
+</div>
+
+<div class="text-lg text-green-600 mb-6">
+  Solution: Tailwind's utility-first approach with component extraction
+</div>
+
+
+<!--
+Tailwind makes styling straightforward with utility classes. The prose plugin is particularly useful for blog content.
+Dark mode is handled with dark: prefixed classes, making theme implementation simpler.
+-->
+
+---
 ---
 
 # Tailwind Integration
@@ -242,9 +263,10 @@ These steps give us a working foundation to build upon.
 ### Installation Steps
 
 ```bash
+## Install tailwind
+pip install 'django-tailwind[reload]'
 # Initialize Tailwind in the project
 python manage.py tailwind init
-
 # Install Tailwind dependencies
 python manage.py tailwind install
 ```
@@ -269,10 +291,9 @@ MIDDLEWARE = [
 
 ---
 ---
-# Tailwind Integration continued
 
 
-### URL Configuration - urls.py
+## URL Configuration - urls.py
 
 ```python
 from django.urls import include, path
@@ -283,9 +304,9 @@ urlpatterns = [
 ]
 ```
 
-### Template Integration
+## Template Integration
 
-Load Tailwind in the `myapp/templates/base.html`
+Load Tailwind in the `myproject/templates/base.html`
 
 ```html
 {% load static tailwind_tags %}
@@ -297,37 +318,39 @@ Load Tailwind in the `myapp/templates/base.html`
 
 
 
-
-
 <!--
 Tailwind integration requires several configuration steps, but the django-tailwind package makes it relatively straightforward.
 The browser reload configuration enables hot reloading during development.
 -->
 
 ---
-transition: slide-up
-layout: statement
 ---
+# Running the project
 
-# Styling: The Maintainability Challenge
+## Database Setup
 
-<div class="text-lg text-amber-500 mb-4">
-  Problem: How do we keep styles maintainable while supporting dark mode and responsive design?
-</div>
+```bash
+# Initialize database with superuser
+python manage.py migrate
+python manage.py createsuperuser
+```
 
-<div class="text-lg text-green-600 mb-6">
-  Solution: Tailwind's utility-first approach with component extraction
-</div>
 
-# Styling with Tailwind
+## Run the Project
 
-<div class="text-md text-purple-400 mb-4">
-  Making CSS fun again (while polluting our HTML)! 🎨
-</div>
+Run these comands in separate terminals.
+
+```bash
+# Run the project
+python manage.py runserver
+# Monitor for CSS changes and rebuild site style
+python manage.py tailwind start
+```
+
 
 <!--
-Tailwind makes styling straightforward with utility classes. The prose plugin is particularly useful for blog content.
-Dark mode is handled with dark: prefixed classes, making theme implementation simpler.
+Tailwind integration requires several configuration steps, but the django-tailwind package makes it relatively straightforward.
+The browser reload configuration enables hot reloading during development.
 -->
 
 ---
@@ -391,14 +414,13 @@ class HomePage(Page):
 -->
 
 ---
-layout: two-cols
 ---
 
-# Base Templates
+# Base Template
 
-<div>
+Make sure the following is in your `myproject/templates/base.html`
 
-```html {all|1|5-11|13-18}
+```html {all|1|9|13-18}
 {% load static tailwind_tags %}
 
 <!DOCTYPE html>
@@ -421,28 +443,6 @@ layout: two-cols
 </html>
 ```
 
-</div>
-
-::right::
-
-<div class="ml-4">
-
-### Key Features
-
-- **Template Tags**
-  - `static` for assets
-  - `tailwind_tags` for styles
-- **Block System**
-  - `title` - Page title
-  - `content` - Main content
-  - `extra_css` - Additional styles
-- **Layout**
-  - Responsive container
-  - Dark mode support
-  - Navigation include
-  - Semantic HTML5
-
-</div>
 
 <!--
 The base template provides the foundation for all pages.
@@ -451,7 +451,7 @@ Note how we use template inheritance and blocks for flexibility.
 
 ---
 
-# Blog Models: The Content Structure Challenge
+# Blog Models
 
 ```python {all|3-4|7-13|15-17|19-23|all}
 # blog/models.py
@@ -485,7 +485,6 @@ It demonstrates Wagtail's powerful context manipulation to provide data to templ
 -->
 
 ---
-layout: two-cols
 ---
 
 # Blog Models: BlogPage
@@ -516,29 +515,6 @@ class BlogPage(Page):
         FieldPanel('tags'),
     ]
 ```
-
-::right::
-
-<div class="mt-8 ml-4">
-
-### Key Features
-
-- `StreamField` for flexible content
-  - Headings
-  - Rich text paragraphs
-  - Images
-- Tags for categorization
-  - `ClusterTaggableManager`
-  - `BlogPageTag` model for relationship
-- Admin panels for easy editing
-- Date field for chronological ordering
-
-### StreamField
-
-Wagtail's StreamField provides a block-based content editing experience similar to Gutenberg in WordPress but more customizable.
-
-
-</div>
 
 <!--
 The BlogPage model is more complex, featuring StreamField for flexible content and tagging functionality.
@@ -588,7 +564,7 @@ def navigation_pages(request):
 
 # Context Processor Configuration
 
-```python
+```python{all|8|all}
 # settings.py
 TEMPLATES = [
   {
@@ -596,7 +572,7 @@ TEMPLATES = [
     'OPTIONS': {
       'context_processors': [
         # ...existing processors
-        'app.core.context_processors.navigation_pages',
+        'app.myproject.context_processors.navigation_pages',
       ],
     },
   },
@@ -656,7 +632,7 @@ It handles missing pages gracefully and uses Wagtail's site finder.
 ---
 # Navigation Component: Nav Item
 
-```html {all|1|3-10|all}
+```html {all|1|4|5|6-8|9-10|all}
 {% load wagtailcore_tags %}
 
 <li role="none">
@@ -680,7 +656,7 @@ layout: two-cols
 
 <div class="mt-4">
 
-<img src="https://docs.wagtail.org/en/stable/_images/wagtail_dashboard.png" class="rounded-lg shadow-md" />
+<img src="https://guide-media.wagtail.org/images/Wagtail_dashboard_with_new_Things_in_Wagtail_4.width-900_RFwEK1H.png" class="rounded-lg shadow-md" />
 
 </div>
 
