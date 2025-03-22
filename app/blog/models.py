@@ -21,10 +21,13 @@ class BlogIndexPage(Page):
 
     parent_page_types = ["home.HomePage"]
 
+    def get_posts(self):
+        posts = BlogPage.objects.live().order_by("-date")
+        return posts
+
     def get_context(self, request):
         context = super().get_context(request)
-        blogpages = BlogPage.objects.live().order_by("-date")
-        context['blogpages'] = blogpages
+        context['posts'] = self.get_posts()
         return context
 
 

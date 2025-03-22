@@ -13,9 +13,9 @@
         {% endif %}
     </section>
 
-    {% if page.get_children.live %}
+    {% if posts %}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {% for post in page.get_children.live.specific %}
+            {% for post in posts %}
                 <article class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
                     <div class="p-6">
                         <h2 class="text-xl font-bold mb-2">
