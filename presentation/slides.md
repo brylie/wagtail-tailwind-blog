@@ -522,31 +522,27 @@ It demonstrates Wagtail's powerful context manipulation to provide data to templ
 
 # Blog Template: BlogIndexPage
 
-```html {all|1-2|4|6-13|15-18|19-27|all}
+```html {all|1|3-5|8-20|10-14|16-18|all}
 <h1>{{ page.title }}</h1>
-{% if page.intro %}
-    <div>
-        {{ page.intro|richtext }}
-    </div>
-{% endif %}
 
+<div>
+    {{ page.intro|richtext }}
+</div>
 
-{% if page.get_children.live %}
-    {% for post in page.get_children.live.specific %}
-        <article>
-            <div>
-                <h2>
-                    <a href="{% pageurl post %}">
-                        {{ post.title }}
-                    </a>
-                </h2>
-                {% if post.date %}
-                    <time datetime="{{ post.date|date:'Y-m-d' }}">
-                        {{ post.date|date:"F j, Y" }}
-                    </time>
-                {% endif %}
-            </div>
-        </article>
+    
+{% for post in page.get_children.live.specific %}
+<div>
+    <h2>
+        <a href="{% pageurl post %}">
+            {{ post.title }}
+        </a>
+    </h2>
+
+    <time datetime="{{ post.date|date:'Y-m-d' }}">
+        {{ post.date|date:"F j, Y" }}
+    </time>
+</div>
+{% endfor %}
 ```
 
 <!--
@@ -556,6 +552,54 @@ The template displays the page title and rich text intro from the model.
 We're using page.get_children.live.specific to access all child pages with their specific content.
 The pageurl tag generates proper URLs for each blog post.
 The template handles the case where no blog posts exist yet.
+-->
+
+---
+---
+
+# Blog Template: BlogPage
+
+<Transform :scale="0.8">
+```html {all|1|4-6|8-17|20-21|23-28|all}
+<h1>{{ page.title }}</h1>
+
+<div>
+    {% if page.date %}
+        <time datetime="{{ page.date|date:'Y-m-d' }}">{{ page.date|date:"F j, Y" }}</time>
+    {% endif %}
+    
+    {% if page.tags.count %}
+        <div>
+            <span class="sr-only">Tags:</span>
+            {% for tag in page.tags.all %}
+                <a href="{% pageurl navigation_tagsindex %}?tag={{ tag|urlencode }}">
+                    {{ tag }}
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+
+{% if page.intro %}<div>{{ page.intro|richtext }}</div>{% endif %}
+{% if page.body %}<div>{{ page.body|richtext }}</div>{% endif %}
+
+<nav aria-label="Post navigation">
+    {% with prev=page.get_prev_siblings.live.first next=page.get_next_siblings.live.first %}
+        {% if prev %}<a href="{% pageurl prev %}">← {{ prev.title }}</a>{% endif %}
+        {% if next %}<a href="{% pageurl next %}">{{ next.title }} →</a>{% endif %}
+    {% endwith %}
+</nav>
+{% endblock %}
+```
+</Transform>
+
+<!--
+The BlogPage template displays an individual blog post with several key components:
+- Header with title, date, and tags with links to tag filtering
+- Rich text introduction and main body content
+- Footer with previous/next post navigation
+Notice how we access tags with page.tags.all and link to the tag index page
+The previous/next navigation provides a way for readers to browse through your blog posts
 -->
 
 ---
