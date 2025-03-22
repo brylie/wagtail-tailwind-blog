@@ -17,11 +17,11 @@ lineNumbers: true
 <div class="text-xl text-grey-600 mt-4">
 Building lightning-fast ⚡️ beautiful blogs in record time!
 </div>
-<!-- TODO: Add "Speed" meme/GIF - search "fastest website meme" -->
 
-<div class="text-xl text-blue-400 mt-4">
-  "Because life's too short for slow, ugly websites"
-</div>
+<!--
+Welcome everyone! Today we're diving into building a modern blog with Wagtail CMS and Tailwind CSS.
+This combination gives us both powerful content management and beautiful, responsive design without complexity.
+-->
 
 ---
 layout: iframe-right
@@ -43,6 +43,13 @@ url: http://127.0.0.1:8000/
   Leave a comment if you'd like me to build your project idea. 🤝
 </div>
 
+<!--
+Here's our finished Wagtail blog with a clean, modern design.
+Notice the responsive layout and how the content is well-structured.
+The homepage showcases key content and provides clear navigation to blog posts.
+This design is powered by Tailwind CSS with minimal custom styling.
+-->
+
 ---
 layout: iframe-right
 url: http://127.0.0.1:8000/blog
@@ -63,6 +70,13 @@ url: http://127.0.0.1:8000/blog
   Leave a comment if you'd like me to build your project idea. 🤝
 </div>
 
+<!--
+Here's the blog listing page showing all our published posts.
+Notice how we've implemented a clean card-based layout using Tailwind.
+Each post shows a title, date, and introduction snippet.
+The tags provide an easy way to filter content by topic.
+-->
+
 ---
 layout: iframe-right
 url: http://127.0.0.1:8000/tags/
@@ -82,6 +96,13 @@ url: http://127.0.0.1:8000/tags/
 <div class="text-3xl">🎨</div>
   Leave a comment if you'd like me to build your project idea. 🤝
 </div>
+
+<!--
+This is our tags index page, which helps users discover content by topic.
+Tags are automatically collected from all blog posts.
+This feature increases discoverability and provides another navigation pathway.
+Clicking a tag will filter posts to show only those with the selected tag.
+-->
 
 ---
 layout: two-cols
@@ -142,6 +163,13 @@ layout: two-cols
 </div>
 
 </div>
+
+<!--
+Today's session offers a comprehensive overview of building with Wagtail and Tailwind.
+We'll cover project setup, styling with Tailwind, and content modeling for blogs.
+The key takeaways are practical skills you can apply immediately to your projects.
+This is an ideal stack for content-focused websites where both editor and user experience matter.
+-->
 
 ---
 layout: two-cols
@@ -289,6 +317,13 @@ MIDDLEWARE = [
 ]
 ```
 
+<!--
+Now we'll integrate Tailwind CSS for styling our blog.
+The django-tailwind package makes setup straightforward with just a few commands.
+We need to add the Tailwind app and browser reload middleware to our settings.
+The browser reload feature is particularly useful during development as it automatically refreshes your CSS changes.
+-->
+
 ---
 ---
 
@@ -315,8 +350,6 @@ Load Tailwind in the `myproject/templates/base.html`
     {% tailwind_css %}
 </head>
 ```
-
-
 
 <!--
 Tailwind integration requires several configuration steps, but the django-tailwind package makes it relatively straightforward.
@@ -548,7 +581,7 @@ def navigation_pages(request):
         blogindex = BlogIndexPage.objects.live().first()
     except BlogIndexPage.DoesNotExist:
         blogindex = None
-    try:
+    try {
         tagsindex = TagsIndexPage.objects.live().first()
     except TagsIndexPage.DoesNotExist:
         tagsindex = None
@@ -559,8 +592,14 @@ def navigation_pages(request):
     }
 ```
 
----
+<!--
+This context processor makes navigation items available across all templates.
+We're finding the site using Wagtail's helpful request-based finder.
+Then we locate key pages (home, blog index, tags) that will appear in our menu.
+Notice how we handle missing pages gracefully - this prevents errors if certain page types aren't created yet.
+-->
 
+---
 
 # Context Processor Configuration
 
@@ -647,6 +686,12 @@ It handles missing pages gracefully and uses Wagtail's site finder.
 </li>
 ```
 
+<!--
+This component represents each individual navigation item.
+Note the accessibility attributes like role="menuitem" and aria-current for active state.
+The Tailwind classes provide a clean, consistent style with hover states and focus indicators.
+We're using Wagtail's pageurl tag to generate the correct URL dynamically.
+-->
 
 ---
 layout: two-cols
